@@ -1,0 +1,39 @@
+#######################################
+# Syntax Coloring Map For DFRobot_GM60
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot_GM60	KEYWORD1
+DFRobot_GM60_IIC	KEYWORD1
+DFRobot_GM60_UART	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+encode	KEYWORD2
+setupCode	KEYWORD2
+setHeadData	KEYWORD2
+setIdentify	KEYWORD2
+reset	KEYWORD2
+detection	KEYWORD2
+
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+e3 = 0	LITERAL1
+e4 = 1	LITERAL1
+eNone = 3	LITERAL1
+
+eGBK	LITERAL1
+eUTF8	LITERAL1
+
+eForbidAllBarcode	LITERAL1
+eEnableAllBarcode	LITERAL1
+eEnableDefaultcode	LITERAL1
