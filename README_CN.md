@@ -20,7 +20,7 @@ GM60 是一款高集成、性能优良的二维码扫描器；外形小巧；可
 ## Summary
 
 
-Provide an Arduino library to get Humidity and Temperature by reading data from dht20.
+Provide an Arduino library to get Humidity and Temperature by reading data from GM60
 
 ## Installation
 
