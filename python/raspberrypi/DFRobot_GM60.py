@@ -98,20 +98,20 @@ class DFRobot_GM60(object):
         #print("u1")
 
   def begin(self):
-  '''
-    @fn begin
-    @brief Init chip
-  '''
+    '''
+      @fn begin
+      @brief Init chip
+    '''
     self.reset()
     self.set_head_data(self.E4)
   
   def reset(self):
-  '''
-    @fn reset
-    @brief Restore factory settings
-    @return true (The setting succeeds)/false (The setting failed)
-  '''  
-  data = 0x55
+    '''
+      @fn reset
+      @brief Restore factory settings
+      @return true (The setting succeeds)/false (The setting failed)
+    '''  
+    data = 0x55
     ack = self.write_reg(self.REG_RECOVER_FACTORY_SET,data,1)
     if ack == 0x02:
       return True
@@ -120,13 +120,13 @@ class DFRobot_GM60(object):
       
 
   def setup_code(self,on,content):
-  '''
-    @fn setup_code
-    @brief Set code config, the value of chip register can be changed by using the module to scan QR code
-    @param on true (Enable setting code)/false (Disable setting code)
-    @param content true (Output the set code content)/false (The set code content is not output)
-    @return true (The setting succeeds)/false (The setting failed)
-  '''
+    '''
+      @fn setup_code
+      @brief Set code config, the value of chip register can be changed by using the module to scan QR code
+      @param on true (Enable setting code)/false (Disable setting code)
+      @param content true (Output the set code content)/false (The set code content is not output)
+      @return true (The setting succeeds)/false (The setting failed)
+    '''
     data = 0
     self.set_head_data(self.E4)
     if on == False:
@@ -140,14 +140,14 @@ class DFRobot_GM60(object):
 
 
   def encode(self,encode):
-  '''
-    @fn encode
-    @brief Read the data encoding scheme
-    @param encode Encoding scheme
-                    eGBK,
-                    eUTF8,
-    @return true (The setting succeeds)/false (The setting failed)
-  '''
+    '''
+      @fn encode
+      @brief Read the data encoding scheme
+      @param encode Encoding scheme
+                      eGBK,
+                      eUTF8,
+      @return true (The setting succeeds)/false (The setting failed)
+    '''
     data = 0
     if encode == self.GBK:
       data = 0
@@ -162,12 +162,12 @@ class DFRobot_GM60(object):
 
 
   def set_head_data(self,head):
-  '''
-    @fn set_head_data
-    @brief Add the packet header data into the output data
-    @param head The concrete data of packet header e3(0x03)/e4(0x04)
-    @return true (The setting succeeds)/false (The setting failed)
-  '''
+    '''
+      @fn set_head_data
+      @brief Add the packet header data into the output data
+      @param head The concrete data of packet header e3(0x03)/e4(0x04)
+      @return true (The setting succeeds)/false (The setting failed)
+    '''
     data = 0x80
     ack = self.write_reg(self.REG_OUTPUT_PROTOCOL_CONFIG,data,1)
     data = head << 6
@@ -179,15 +179,15 @@ class DFRobot_GM60(object):
       
 
   def set_identify(self,berCode):
-  '''
-    @fn set_identify
-    @brief Set the available types of QR code for recognition
-    @param berCode 
-           eForbidAllBarcode, //Forbid all the QR code recognition
-           eEnableAllBarcode, // Enable all the QR code recognition
-           eEnableDefaultcode, // Enable the default QR code recognition
-    @return true (The setting succeeds)/false (The setting failed)
-  '''
+    '''
+      @fn set_identify
+      @brief Set the available types of QR code for recognition
+      @param berCode 
+             eForbidAllBarcode, //Forbid all the QR code recognition
+             eEnableAllBarcode, // Enable all the QR code recognition
+             eEnableDefaultcode, // Enable the default QR code recognition
+      @return true (The setting succeeds)/false (The setting failed)
+    '''
     data = berCode <<1
     ack = self.write_reg(self.REG_IDENTIFY_CONFIG,data,1)
     if ack == 0x02:
@@ -197,35 +197,35 @@ class DFRobot_GM60(object):
       
 
   def response_payload(self):
-  '''
-    @fn response_payload
-    @brief Detect the data contained in the scanned QR code
-    @return  Return the scanned data as a character string
-  '''
-     time.sleep(0.01)
-     stri = ""
-     if self.read_prefix() == 0:
-       head = self.read(2)
-       time.sleep(0.03)
-       data = self.read(head[1])
-       for i in range(0,head[1]):
-           stri += chr(data[i])
-      
-     return stri
+    '''
+      @fn response_payload
+      @brief Detect the data contained in the scanned QR code
+      @return  Return the scanned data as a character string
+    '''
+    time.sleep(0.01)
+    stri = ""
+    if self.read_prefix() == 0:
+      head = self.read(2)
+      time.sleep(0.03)
+      data = self.read(head[1])
+      for i in range(0,head[1]):
+          stri += chr(data[i])
+     
+    return stri
      
 
   def read_prefix(self):
-  '''
-    @fn read_prefix
-    @brief Read the packet header data
-    @return  Return (0) when the read packet header data is 0x04, otherwise, return (1)
-  '''
-     for i in range(0,200):
-       time.sleep(0.01)
-       prefix = self.read(1)
-       if prefix[0] == 0x04:
-         return 0
-     return 1
+    '''
+      @fn read_prefix
+      @brief Read the packet header data
+      @return  Return (0) when the read packet header data is 0x04, otherwise, return (1)
+    '''
+    for i in range(0,200):
+      time.sleep(0.01)
+      prefix = self.read(1)
+      if prefix[0] == 0x04:
+        return 0
+    return 1
 class DFRobot_GM60_I2C(DFRobot_GM60): 
 
   def __init__(self ,bus ,addr):
@@ -234,13 +234,13 @@ class DFRobot_GM60_I2C(DFRobot_GM60):
     
 
   def write_reg(self, reg, data,len):
-  '''
-    @fn write_reg
-    @brief Write data to register
-    @param reg 16-bit register address
-    @param data 8-bit config register value
-    @param len  Continuously configure register numbers
-  '''
+    '''
+      @fn write_reg
+      @brief Write data to register
+      @param reg 16-bit register address
+      @param data 8-bit config register value
+      @param len  Continuously configure register numbers
+    '''
     packet = [0x7E,0x00,0x08,0x01,0x00,0x00,0x22,0xAB,0xCD]
     packet[4] = reg>>8
     packet[5] = reg&0xff
@@ -257,13 +257,13 @@ class DFRobot_GM60_I2C(DFRobot_GM60):
   
 
   def read_reg(self,reg,data,length):
-  '''
-    @fn read_reg
-    @brief Read data from the register
-    @param reg 16-bit register address
-    @param data Storage location for the read register value
-    @param length  Continuously read register numbers
-  '''
+    '''
+      @fn read_reg
+      @brief Read data from the register
+      @param reg 16-bit register address
+      @param data Storage location for the read register value
+      @param length  Continuously read register numbers
+    '''
     packet = [0x7E,0x00,0x07,0x01,0x00,0x00,0x22,0xAB,0xCD]
     packet[4] = reg>>8
     packet[5] = reg&0xff
@@ -279,21 +279,21 @@ class DFRobot_GM60_I2C(DFRobot_GM60):
        
 
   def write_data(self, data):
-  '''
-    @fn write_data
-    @brief Write a data to the sensor
-    @param data The data to be written
-  '''
-      self.i2cbus.write_byte(self.__addr ,data)
+    '''
+      @fn write_data
+      @brief Write a data to the sensor
+      @param data The data to be written
+    '''
+    self.i2cbus.write_byte(self.__addr ,data)
     
 
   def read(self,len):
-  '''
-    @fn read
-    @brief Read data from the sensor
-    @param len Length of the data to be read
-    @return Return the read data as an array
-  '''
+    '''
+      @fn read
+      @brief Read data from the sensor
+      @param len Length of the data to be read
+      @return Return the read data as an array
+    '''
     buf = [0]*len
     for i in range(0,len):
        time.sleep(0.001)
@@ -309,13 +309,13 @@ class DFRobot_GM60_UART(DFRobot_GM60):
 
 
   def write_reg(self, reg, data,len):
-  '''
-    @fn write_reg
-    @brief Write data to register
-    @param reg 16-bit register address
-    @param data 8-bit config register value
-    @param len  Continuously configure register numbers
-  '''
+    '''
+      @fn write_reg
+      @brief Write data to register
+      @param reg 16-bit register address
+      @param data 8-bit config register value
+      @param len  Continuously configure register numbers
+    '''
     packet = [0x7E,0x00,0x08,0x01,0x00,0x00,0x22,0xAB,0xCD]
     packet[4] = reg>>8
     packet[5] = reg&0xff
@@ -331,13 +331,13 @@ class DFRobot_GM60_UART(DFRobot_GM60):
   
 
   def read_reg(self,reg,data,length):
-  '''
-    @fn read_reg
-    @brief Read data from the register
-    @param reg 16-bit register address
-    @param data Storage location for the read register value
-    @param length  Continuously read register numbers
-  '''
+    '''
+      @fn read_reg
+      @brief Read data from the register
+      @param reg 16-bit register address
+      @param data Storage location for the read register value
+      @param length  Continuously read register numbers
+    '''
     packet = [0x7E,0x00,0x07,0x01,0x00,0x00,0x22,0xAB,0xCD]
     packet[4] = reg>>8
     packet[5] = reg&0xff
@@ -352,12 +352,12 @@ class DFRobot_GM60_UART(DFRobot_GM60):
 
 
   def read(self,len):
-  '''
-    @fn read
-    @brief Read data from the sensor
-    @param len Length of the data to be read
-    @return Return the read data as an array
-  '''
+    '''
+      @fn read
+      @brief Read data from the sensor
+      @param len Length of the data to be read
+      @return Return the read data as an array
+    '''
     buf = [0]*len
     for i in range(0,len):
        #time.sleep(0.001);

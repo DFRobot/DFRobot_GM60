@@ -41,7 +41,7 @@ encode Encoding mode
          eUTF8,//utf8 encoding
 '''
 asr.encode(asr.UTF8)
-+
+
 '''
 Set the available types of QR code for recognition
 berCode:
