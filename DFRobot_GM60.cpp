@@ -99,13 +99,21 @@ String DFRobot_GM60::responsePayload(){
   delay(10);
   if(readPrefix() == 0){
     read(head,2);
-    uint8_t *data = (uint8_t *)malloc(head[1]);
-
-    read(data,head[1]);
-    for(uint8_t i = 0 ;i < head[1];i++){
-     str += char(data[i]);
+    uint16_t len = ((uint16_t)head[0] << 8) | head[1];
+    if(len == 0){
+      return str;
     }
-    free(data);
+    str.reserve(len);
+    uint8_t buf[32];
+    uint16_t remaining = len;
+    while(remaining > 0){
+      uint16_t chunk = (remaining > sizeof(buf)) ? sizeof(buf) : remaining;
+      read(buf, chunk);
+      for(uint16_t i = 0; i < chunk; i++){
+        str += (char)buf[i];
+      }
+      remaining -= chunk;
+    }
     return str;
   }
   return "null";
@@ -192,12 +200,12 @@ uint8_t DFRobot_GM60_IIC::readReg(uint16_t reg,uint8_t data[],uint8_t length)
 }
 size_t DFRobot_GM60_IIC::read(uint8_t* buf, size_t len){
   
-  for(uint8_t i = 0 ;i < len ;i++){
-    _pWire->requestFrom(_deviceAddr,1);
+  for(size_t i = 0; i < len; i++){
+    _pWire->requestFrom(_deviceAddr, (uint8_t)1);
     buf[i] = _pWire->read();
     DBG(buf[i])
-   }
-  return 0;
+  }
+  return len;
 }
 DFRobot_GM60_UART::DFRobot_GM60_UART(){}
 bool DFRobot_GM60_UART::begin(Stream &s_){
@@ -257,15 +265,21 @@ uint8_t DFRobot_GM60_UART::readReg(uint16_t reg,uint8_t data[],uint8_t length){
 }
 size_t DFRobot_GM60_UART::read(uint8_t * buf, size_t len)
 {
-   uint8_t offset = 0;
+  size_t offset = 0;
+  unsigned long timeout = 100;
+  unsigned long startTime = millis();
 
-   delay(10);
-   while(s->available()){
-       buf[offset++] = s->read();
-     delay(1);
-    len--;
-    if(len == 0)break;
-   }
+  while(offset < len){
+    if(s->available()){
+      buf[offset++] = s->read();
+      startTime = millis();
+    } else {
+      if((millis() - startTime) > timeout){
+        break;
+      }
+      delay(1);
+    }
+  }
 
-   return 0;
+  return offset;
 }

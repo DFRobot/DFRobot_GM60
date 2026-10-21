@@ -207,8 +207,9 @@ class DFRobot_GM60(object):
     if self.read_prefix() == 0:
       head = self.read(2)
       time.sleep(0.03)
-      data = self.read(head[1])
-      for i in range(0,head[1]):
+      length = (head[0] << 8) | head[1]
+      data = self.read(length)
+      for i in range(0, len(data)):
           stri += chr(data[i])
      
     return stri
