@@ -98,6 +98,8 @@ Micro:bit        |      √       |              |             |
 FireBeetle-M0        |      √       |              |             | 
 Raspberry Pi      |      √       |              |             | 
 
+**注意：** GM60 协议支持最长 65535 字节的扫描结果（16 位长度字段）。但内存有限的开发板（如 Arduino UNO/Nano，仅有 2KB SRAM）可能无法存储很长的二维码结果。对于长二维码，请使用内存更大的开发板，如 ESP32 或 Arduino MEGA。 
+
 
 ## History
 

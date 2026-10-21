@@ -109,6 +109,8 @@ Micro:bit        |      √       |              |             |
 FireBeetle-M0        |      √       |              |             | 
 Raspberry Pi      |      √       |              |             | 
 
+**Note:** The GM60 protocol supports scan results up to 65535 bytes (16-bit length field). However, boards with limited RAM (e.g. Arduino UNO/Nano with 2KB SRAM) may not have enough memory for very long QR code results. For long QR codes, use a board with more RAM such as ESP32 or Arduino MEGA. 
+
 
 ## History
 
